@@ -1,0 +1,88 @@
+Criar A Solução em Branco para alocar os projetos do sistema
+	Criar uma solution Folder com o nome 01_Web
+		Dentro desta pasta, criar o projeto .Web do tipo AspNET Core WebApplication do tipo MVC - Estacionamento.Web
+	Criar uma Solution Folder com o nome 02_Domain
+		Dentro desta Pasta, criar o projeto .Domain do tipo Class Library .NET Core - Estacionamento.Domain
+	Criar uma Solution Folder com o nome 03_Infra
+		Dentro desta pasta, criar o projeto .Infra do tipo Class Library .NET Core - Estacionamento.Infra
+
+Configurando o Projeto Domain
+	Organizar a estrutura de Pastas
+		Criar a pasta Entities (contem as entidades do sistema)
+		Criar a pasta Interfaces 
+			Dentro de Interfaces, criar a pasta Repositories (contém as interfaces do repositorio)
+	
+	Dentro da pasta Entities, criar as Entidades que representam as tabelas com suas properties
+	Dentro da pasta Interfaces/Repositories, criar e configurar as Interfaces
+		Criar uma interface com o nome IRepositoryBase, que será nossa interface GENÉRICA
+			O nome da interface será IRepositoryBase<TEntity> where TEntity: class
+			Criar os métodos dentro da interface, que será o nosso contrato
+				void Create(TEntity obj);
+				IEnumerable<TEntity> GetAll();
+				TEntity GetById(int id);
+				void Update(TEntity obj);
+				void Remove(TEntity obj);
+		Criar as interfaces especializadas das entidades
+			Cada entidade precisa ter a sua interface que herda de IRepositoryBase
+			Criar a interface I[entidade]Repository que herda de IRepositoryBase passando a entidade no parametro	
+
+Configurando o Projeto Infra
+	Organizar a estrutura de Pastas
+		Criar a pasta Context (contém a configuração do contexto)
+		Criar a pasta EntityConfig (contém a configuração das entidades)
+		Criar a pasta Repository (contém a configuração dos repositórios)
+	Adicionar a dependência do projeto .Domain
+	Instalar os packages do Entity Framework Core
+		Deixar o projeto.Infra como projeto inicial (Startup Project)
+		No Package Manager Console, deixar o projeto Infra
+		Install-Package Microsoft.EntityFrameworkCore
+		Install-Package Microsoft.EntityFrameworkCore.Design
+		Install-Package Microsoft.EntityFrameworkCore.Relational
+		Install-Package Microsoft.EntityFrameworkCore.SqlServer
+		Install-Package Microsoft.EntityFrameworkCore.Tools
+	Configurar as Entidades
+		Criar na pasta EntityConfig as classes de configuração de entidades com a nomenclatura [entidade]Config
+		Lembrando que a classe herda de IEntityTypeConfiguration<[Entidade]>
+		Depois de remover os erros e implementar a interface, utilizar a variavel builder para configurar a entidade
+		
+		Configurar a chave primaria -> builder.HasKey(x => x.Id);
+		Configurar o MaxLength dos campos -> builder.Property(x => x.Nome).HasMaxLength(60);
+		Configurar o HasDefaultValue dos campos -> builder.Property(x => x.isAtivo).HasDefaultValue(true);
+		Configurar o HasDefaultValueSql dos campos -> builder.Property(x => x.CreatedAt).HasDefaultValueSql("GETDATE()");
+		Configurar o HasColumnType dos campos -> builder.Property(x => x.CreatedAt).HasColumnType("DateTime");
+		
+		Configurar os relacionamentos se houverem
+	Criar o Contexto
+		Criar na pasta Context, a classe de contexto, com a nomenclatura [nome]Context que herda de DbContext
+		Remover o erro, adicionando a referencia -> using Microsoft.EntityFrameworkCore;
+	Configurar o Contexto
+		Criar os DbSets para cada entidade e dar o nome da tabelas
+		Criar override do método OnConfiguring
+			Esse método serve para configurar a connection string
+			utilizando a variavel optionsBuilder, colocar a conneection string dentro do método UseSqlServer()
+		Criar override do métido OnModelCreating
+			Esse método é utilizado para configurar os modelos das entidades
+			utilizando a variavel modelBuilder, colocar o ApplyConfiguration(new ClasseConfig())
+	Criar e configurar os Repositórios
+		Criar o com o nome RepositoryBase que será o nosso repositorio GENERICO com o nome RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class
+			Remover os erros, colocando a referencia e implementando a interface utilizada
+			Criar a propriedade privada readOnly do contexto e fazer instanciação do contexto usando o new -> private readonly Context _context = new Context();
+			implementar os métodos que a interface obriga a fazer, fazendo o save changes
+		Criar os repositórios especializados de cada entidade com o nome [nome]Repository
+			Herdar de RepositoryBase<[entidade]>, I[entidade]Repository
+	Criar o Migration Inicial
+		Utilizar o comando Add-Migration m0 pra criar a migração inicial
+	Atualizar o SQL Server
+		Utilizar o comando Update-Database para refletir no SQL Server as configurações que fizemos.
+
+Configurando o Projeto Web
+	Deixar o projeto como projeto Inicial (Startup Project)
+	Configurar as Referências
+		Adicionar as Dependencias dos projetos Domain e Infra
+		No arquivo Startup, dentro de Configure Services
+			Adicionar o Scopped de cada entidade, utilizando services.AddScoped<I[entidade]Repository, [entidade]Repository>();
+	Configurar as Controllers
+		Em cada controller criada, criar um construtor para receber a interface I[entidade]Repository repository
+		Em cada controller criar um atributo privado readOnly I[entidade]Repository _repository
+		Atribuir ao _repository o valor de repository
+		Só usar o _repository para fazer as ações
