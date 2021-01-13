@@ -20,7 +20,7 @@ namespace MWEstacionamentos.Infra.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new xptoonfig());
+            modelBuilder.ApplyConfiguration(new xptoConfig());
         }
     }
 }
