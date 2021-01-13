@@ -3,7 +3,7 @@ using MWEstacionamentos.Domain.Interfaces.Repositories;
 
 namespace MWEstacionamentos.Infra.Repositories
 {
-    public class ClienteRepository: RepositoryBase<Cliente>, IClienteRepository
+    public class xptoRepository: RepositoryBase<xpto>, IxptoRepository
     {
     }
 }

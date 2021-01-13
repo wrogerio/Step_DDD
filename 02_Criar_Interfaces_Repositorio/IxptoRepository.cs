@@ -2,7 +2,7 @@
 
 namespace MWEstacionamentos.Domain.Interfaces.Repositories
 {
-    public interface IClienteRepository: IRepositoryBase<Cliente>
+    public interface IxptoRepository: IRepositoryBase<xpto>
     {
     }
 }
