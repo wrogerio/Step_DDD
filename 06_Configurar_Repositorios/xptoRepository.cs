@@ -1,9 +1,9 @@
-﻿using MWEstacionamentos.Domain.Entities;
-using MWEstacionamentos.Domain.Interfaces.Repositories;
+﻿using SolutionName.Domain.Entities;
+using SolutionName.Domain.Interfaces.Repositories;
 
-namespace MWEstacionamentos.Infra.Repositories
+namespace SolutionName.Infra.Repositories
 {
-    public class xptoRepository: RepositoryBase<xpto>, IxptoRepository
+    public class ClassNameRepository: RepositoryBase<ClassName>, IClassNameRepository
     {
     }
 }

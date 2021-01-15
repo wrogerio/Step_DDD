@@ -40,6 +40,7 @@ Configurando o Projeto Infra
 		Install-Package Microsoft.EntityFrameworkCore.Relational
 		Install-Package Microsoft.EntityFrameworkCore.SqlServer
 		Install-Package Microsoft.EntityFrameworkCore.Tools
+		Install-Package Microsoft.EntityFrameworkCore.Proxies
 	Configurar as Entidades
 		Criar na pasta EntityConfig as classes de configuração de entidades com a nomenclatura [entidade]Config
 		Lembrando que a classe herda de IEntityTypeConfiguration<[Entidade]>

@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MWEstacionamentos.Domain.Entities;
+using SolutionName.Domain.Entities;
 
-namespace MWEstacionamentos.Infra.EntityConfig
+namespace SolutionName.Infra.EntityConfig
 {
-    public class xptoConfig : IEntityTypeConfiguration<xpto>
+    public class ClassNameConfig : IEntityTypeConfiguration<ClassName>
     {
-        public void Configure(EntityTypeBuilder<xpto> builder)
+        public void Configure(EntityTypeBuilder<ClassName> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -18,7 +18,7 @@ namespace MWEstacionamentos.Infra.EntityConfig
 
             builder.Property(x => x.CreatedAt).HasColumnType("DateTime");
 
-            builder.HasMany(x => x.Veiculos).WithOne(x => x.xpto).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(x => x.Veiculos).WithOne(x => x.ClassName).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

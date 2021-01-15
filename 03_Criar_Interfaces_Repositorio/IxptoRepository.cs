@@ -1,8 +1,8 @@
-﻿using MWEstacionamentos.Domain.Entities;
+﻿using SolutionName.Domain.Entities;
 
-namespace MWEstacionamentos.Domain.Interfaces.Repositories
+namespace SolutionName.Domain.Interfaces.Repositories
 {
-    public interface IxptoRepository: IRepositoryBase<xpto>
+    public interface IClassNameRepository: IRepositoryBase<ClassName>
     {
     }
 }
